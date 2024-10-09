@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="pasta_css/signup.css"> <!-- Link para o CSS do signup -->
+</head>
+<body>
+
+    <div class="container">
+        <h2>Cadastro</h2>
+        <form action="/api/auth/signup" method="POST">
+            <input type="text" name="name" placeholder="Nome Completo" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Cadastrar</button>
+            <div class="form-footer">
+                <p>Já tem uma conta? <a href="login.html">Login</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script src="pasta_js/signup.js"></script> <!-- Link para o JavaScript do signup -->
+</body>
+</html>
