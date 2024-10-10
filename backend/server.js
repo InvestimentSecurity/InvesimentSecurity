@@ -1,5 +1,4 @@
-// Carregar variáveis de ambiente do arquivo .env
-require('dotenv').config();
+require('dotenv').config(); // Carregar variáveis de ambiente do arquivo .env
 
 const express = require('express');
 const cors = require('cors');
@@ -8,9 +7,9 @@ const connectDB = require('./config/db'); // Conexão com banco MongoDB
 const jwt = require('jsonwebtoken');
 const app = express();
 
-// Habilitar CORS
+// Habilitar CORS para permitir requisições do frontend hospedado no GitHub Pages
 app.use(cors({
-    origin: 'https://investimentsecurity.github.io', // Permitir que o frontend hospedado no GitHub Pages acesse a API
+    origin: 'https://investimentsecurity.github.io', // Permitir acesso do frontend
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -48,6 +47,12 @@ app.get('/api/dashboard', authMiddleware, (req, res) => {
     res.json({ message: `Bem-vindo à Dashboard, usuário ID: ${req.user.id}` });
 });
 
+// Log adicional para erros inesperados
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: 'Erro no servidor, por favor tente novamente mais tarde.' });
+});
+
 // Definir a porta do servidor
 const PORT = process.env.PORT || 5000;
 
@@ -55,3 +60,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+

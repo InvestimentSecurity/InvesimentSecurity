@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const signupData = { name, email, password };
 
         try {
-            // Atualizando a URL da API para o Render
-            const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/signup', { 
+            // Enviando os dados para a API correta no Render
+            const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(signupData)
             });
 
+            // Verifica se a resposta não é OK (200-299)
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Erro desconhecido');
@@ -32,11 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             alert('Cadastro realizado com sucesso!');
-            window.location.href = '/login.html'; // Redirecionar para login
+            window.location.href = '/login.html'; // Redirecionar para login após o cadastro
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
             alert(`Erro ao tentar realizar o cadastro: ${error.message}`);
         }
     });
 });
+
 
