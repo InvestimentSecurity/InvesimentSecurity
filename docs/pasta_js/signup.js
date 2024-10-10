@@ -1,15 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const signupForm = document.querySelector('form');
 
-    // Evento de submissão do formulário
     signupForm.addEventListener('submit', async (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
 
         const name = signupForm.name.value;
         const email = signupForm.email.value;
         const password = signupForm.password.value;
 
-        // Validação simples dos campos
         if (!name || !email || !password) {
             alert('Por favor, preencha todos os campos!');
             return;
@@ -18,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const signupData = { name, email, password };
 
         try {
-            // Use a URL correta do Render para o backend
-            const response = await fetch('https://invesimentsecurity.onrender.com', {
+            // Atualizando a URL da API para o Render
+            const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/signup', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -27,19 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(signupData)
             });
 
-            // Verificar se a resposta não é OK (200-299)
             if (!response.ok) {
-                const errorData = await response.json(); // Tentar capturar o erro como JSON
+                const errorData = await response.json();
                 throw new Error(errorData.message || 'Erro desconhecido');
             }
 
             const result = await response.json();
-            alert('Cadastro realizado com sucesso! Redirecionando para o login...');
-            // Redirecionar para a página de login após o cadastro
-            window.location.href = '/login.html'; 
+            alert('Cadastro realizado com sucesso!');
+            window.location.href = '/login.html'; // Redirecionar para login
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
-            alert(`Ocorreu um erro ao tentar realizar o cadastro: ${error.message}`);
+            alert(`Erro ao tentar realizar o cadastro: ${error.message}`);
         }
     });
 });
+

@@ -2,18 +2,17 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 const path = require('path'); // Necessário para trabalhar com caminhos de arquivos
 const connectDB = require('./config/db'); // Conexão com banco MongoDB
 const jwt = require('jsonwebtoken');
-const cors = require('cors'); // Middleware CORS
-
 const app = express();
 
-// Configurar CORS para permitir o frontend acessar o backend
+// Habilitar CORS
 app.use(cors({
-    origin: 'https://investimentsecurity.github.io', // URL do seu frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-    credentials: true
+    origin: 'https://investimentsecurity.github.io', // Permitir que o frontend hospedado no GitHub Pages acesse a API
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Conectar ao MongoDB
