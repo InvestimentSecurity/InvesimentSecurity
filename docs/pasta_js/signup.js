@@ -1,5 +1,3 @@
-// signup.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const signupForm = document.querySelector('form');
 
@@ -20,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const signupData = { name, email, password };
 
         try {
-            // Enviar dados para o servidor
-            const response = await fetch('/api/auth/signup', {
+            // Use a URL correta do Render para o backend
+            const response = await fetch('https://invesimentsecurity.onrender.com', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -37,9 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             alert('Cadastro realizado com sucesso! Redirecionando para o login...');
-            // Corrigir o redirecionamento para login.html
+            // Redirecionar para a página de login após o cadastro
             window.location.href = '/login.html'; 
-
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
             alert(`Ocorreu um erro ao tentar realizar o cadastro: ${error.message}`);

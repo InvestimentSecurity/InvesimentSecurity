@@ -1,7 +1,5 @@
-// login.js
-
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.querySelector('#loginForm');
+    const loginForm = document.querySelector('form');
 
     loginForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -17,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const loginData = { email, password };
 
         try {
-            const response = await fetch('/api/auth/login', {
+            // Use a URL correta do backend no Render
+            const response = await fetch('https://invesimentsecurity.onrender.com', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -31,16 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const result = await response.json();
-
-            // Armazenar as informações do login no localStorage
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('user', JSON.stringify(result.user));
-
             alert('Login realizado com sucesso!');
-
-            // Redirecionar para a página principal após o login
             window.location.href = '/index.html'; 
-
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
             alert(`Erro ao fazer login: ${error.message}`);
