@@ -5,7 +5,16 @@ const express = require('express');
 const path = require('path'); // Necessário para trabalhar com caminhos de arquivos
 const connectDB = require('./config/db'); // Conexão com banco MongoDB
 const jwt = require('jsonwebtoken');
+const cors = require('cors'); // Middleware CORS
+
 const app = express();
+
+// Configurar CORS para permitir o frontend acessar o backend
+app.use(cors({
+    origin: 'https://investimentsecurity.github.io', // URL do seu frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+    credentials: true
+}));
 
 // Conectar ao MongoDB
 connectDB();
@@ -47,4 +56,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
-
