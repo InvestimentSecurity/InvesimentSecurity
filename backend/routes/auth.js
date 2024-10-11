@@ -7,11 +7,11 @@ const User = require('../models/User'); // Modelo de usuário
 // Rota de Cadastro (Signup)
 router.post('/signup', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, username } = req.body;
 
-        // Verificar se todos os campos foram preenchidos
+        // Verificar se todos os campos obrigatórios foram preenchidos
         if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Por favor, preencha todos os campos.' });
+            return res.status(400).json({ message: 'Por favor, preencha todos os campos obrigatórios.' });
         }
 
         // Verificar se o email já está em uso
@@ -21,7 +21,7 @@ router.post('/signup', async (req, res) => {
         }
 
         // Criar novo usuário
-        user = new User({ name, email, password });
+        user = new User({ name, email, password, username });
 
         // Hashear a senha antes de salvar
         const salt = await bcrypt.genSalt(10);
@@ -41,18 +41,18 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// Rota de Login
+// Rota de Login (Login)
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Verificar se todos os campos foram preenchidos
+        // Verificar se todos os campos obrigatórios foram preenchidos
         if (!email || !password) {
-            return res.status(400).json({ message: 'Por favor, preencha todos os campos.' });
+            return res.status(400).json({ message: 'Por favor, preencha todos os campos obrigatórios.' });
         }
 
-        // Verificar se o usuário existe
-        let user = await User.findOne({ email });
+        // Verificar o usuário pelo email
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: 'Credenciais inválidas.' });
         }
@@ -75,3 +75,4 @@ router.post('/login', async (req, res) => {
 });
 
 module.exports = router;
+

@@ -7,16 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = signupForm.name.value;
         const email = signupForm.email.value;
         const password = signupForm.password.value;
+        const username = signupForm.username ? signupForm.username.value : ''; // Opcional
 
         if (!name || !email || !password) {
             alert('Por favor, preencha todos os campos!');
             return;
         }
 
-        const signupData = { name, email, password };
+        const signupData = { name, email, password, username };
 
         try {
-            // Enviar dados para o backend
             const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/signup', {
                 method: 'POST',
                 headers: {

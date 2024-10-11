@@ -2,9 +2,9 @@
 require('dotenv').config();
 
 const express = require('express');
-const path = require('path'); // Necessário para trabalhar com caminhos de arquivos
-const connectDB = require('./config/db'); // Conexão com banco MongoDB
+const path = require('path');
 const cors = require('cors');
+const connectDB = require('./config/db'); // Conexão com banco MongoDB
 const jwt = require('jsonwebtoken');
 
 const app = express();
@@ -15,23 +15,19 @@ connectDB();
 // Middleware para aceitar JSON no corpo das requisições
 app.use(express.json());
 
-// Middleware CORS para permitir requisições do frontend hospedado em um domínio diferente
-app.use(cors({
-    origin: 'https://investimentsecurity.github.io', // URL do seu frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// Habilitar CORS para permitir requisições do frontend
+app.use(cors());
 
 // Middleware de autenticação
 const authMiddleware = (req, res, next) => {
-    const token = req.header('Authorization'); // Pega o token do header Authorization
+    const token = req.header('Authorization');
     if (!token) {
         return res.status(401).json({ message: 'Acesso negado. Token não fornecido.' });
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verifica o token JWT
-        req.user = decoded; // Anexa as informações decodificadas do usuário à requisição
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
         next();
     } catch (error) {
         return res.status(401).json({ message: 'Token inválido.' });
@@ -41,7 +37,7 @@ const authMiddleware = (req, res, next) => {
 // Servir arquivos estáticos da pasta frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Rotas de autenticação (login e signup)
+// Rotas de autenticação
 app.use('/api/auth', require('./routes/auth'));
 
 // Rota protegida (Exemplo de Dashboard protegida por autenticação)
@@ -56,3 +52,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+

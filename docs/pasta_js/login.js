@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const loginData = { email, password };
 
         try {
-            // Enviar dados para o backend
             const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/login', {
                 method: 'POST',
                 headers: {
@@ -34,9 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/index.html'; // Redireciona para a página principal
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
-            alert(`Erro ao tentar realizar o login: ${error.message}`);
+            alert(`Erro ao fazer login: ${error.message}`);
         }
     });
 });
+
 
 
