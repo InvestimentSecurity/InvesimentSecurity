@@ -1,38 +1,48 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Certifique-se de ter o modelo User
+const User = require('../models/user');
 const router = express.Router();
 
-// Rota de cadastro (signup)
+// Rota de signup
 router.post('/signup', async (req, res) => {
-    const { username, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-    try {
-        // Verificar se o usuário já existe
-        let user = await User.findOne({ username });
-        if (user) {
-            return res.status(400).json({ message: 'Usuário já existe' });
-        }
+  // Verifique se o nome, email e senha foram fornecidos
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: 'Por favor, preencha todos os campos!' });
+  }
 
-        // Criar novo usuário
-        user = new User({ username, email, password });
-
-        // Hashear a senha
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
-
-        await user.save();
-
-        // Criar e retornar o token JWT
-        const payload = { user: { id: user.id } };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.status(201).json({ token });
-    } catch (error) {
-        console.error('Erro no cadastro:', error.message);
-        res.status(500).json({ message: 'Erro no servidor' });
+  try {
+    // Verificar se o usuário já existe
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ message: 'Usuário já existe com esse email!' });
     }
+
+    // Hashear a senha
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Criar novo usuário
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    // Salvar o usuário no banco de dados
+    await newUser.save();
+
+    // Gerar token JWT
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    res.status(201).json({ message: 'Usuário cadastrado com sucesso!', token });
+  } catch (error) {
+    console.error('Erro no cadastro:', error);
+    res.status(500).json({ message: 'Erro no servidor, por favor tente novamente mais tarde.' });
+  }
 });
 
 module.exports = router;
