@@ -16,13 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const signupData = { name, email, password };
 
         try {
-            // Atualize a URL para o seu backend no Render
+            // URL da API de cadastro
             const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(signupData)
+                body: JSON.stringify(signupData),
             });
 
             if (!response.ok) {

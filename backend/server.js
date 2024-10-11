@@ -2,14 +2,10 @@
 require('dotenv').config();
 
 const express = require('express');
-const cors = require('cors'); // Importar o CORS
-const path = require('path'); // Necessário para trabalhar com caminhos de arquivos
-const connectDB = require('./config/db'); // Conexão com banco MongoDB
-const jwt = require('jsonwebtoken');
+const path = require('path');
+const connectDB = require('./config/db'); // Conexão com MongoDB
+const cors = require('cors');
 const app = express();
-
-// Habilitar CORS para permitir requisições de outro domínio
-app.use(cors());
 
 // Conectar ao MongoDB
 connectDB();
@@ -17,21 +13,8 @@ connectDB();
 // Middleware para aceitar JSON no corpo das requisições
 app.use(express.json());
 
-// Middleware de autenticação
-const authMiddleware = (req, res, next) => {
-    const token = req.header('Authorization');
-    if (!token) {
-        return res.status(401).json({ message: 'Acesso negado. Token não fornecido.' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        return res.status(401).json({ message: 'Token inválido.' });
-    }
-};
+// Ativar CORS para permitir requisições do frontend
+app.use(cors({ origin: '*' }));
 
 // Servir arquivos estáticos da pasta frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
@@ -40,8 +23,8 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/auth', require('./routes/auth'));
 
 // Rota protegida (Exemplo de Dashboard protegida por autenticação)
-app.get('/api/dashboard', authMiddleware, (req, res) => {
-    res.json({ message: `Bem-vindo à Dashboard, usuário ID: ${req.user.id}` });
+app.get('/api/dashboard', (req, res) => {
+    res.json({ message: 'Bem-vindo à Dashboard protegida!' });
 });
 
 // Definir a porta do servidor

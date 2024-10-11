@@ -1,23 +1,21 @@
 const mongoose = require('mongoose');
 
+// Definir o esquema do usuário
 const UserSchema = new mongoose.Schema({
-    fullname: {
+    name: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
-    date: {
-        type: Date,
-        default: Date.now
-    }
 });
 
 module.exports = mongoose.model('User', UserSchema);
+

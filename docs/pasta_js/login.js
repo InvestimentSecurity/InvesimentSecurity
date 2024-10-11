@@ -15,13 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const loginData = { email, password };
 
         try {
-            // Atualizando a URL da API para o Render
-            const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/login', { 
+            // URL da API de login
+            const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(loginData)
+                body: JSON.stringify(loginData),
             });
 
             if (!response.ok) {
@@ -31,11 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             alert('Login realizado com sucesso!');
-            window.location.href = '/index.html'; // Redirecionar para a página principal
+            window.location.href = '/index.html';
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
-            alert(`Erro ao tentar fazer login: ${error.message}`);
+            alert(`Erro ao fazer login: ${error.message}`);
         }
     });
 });
+
 
