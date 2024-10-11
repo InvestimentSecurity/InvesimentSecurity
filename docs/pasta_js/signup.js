@@ -16,13 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const signupData = { name, email, password };
 
         try {
-            // URL da API de cadastro
+            // Enviar dados para o backend
             const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/signup', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(signupData),
+                body: JSON.stringify(signupData)
             });
 
             if (!response.ok) {
@@ -32,12 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             alert('Cadastro realizado com sucesso!');
-            window.location.href = '/login.html';
+            window.location.href = '/login.html'; // Redireciona para a página de login
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
             alert(`Erro ao tentar realizar o cadastro: ${error.message}`);
         }
     });
 });
+
 
 

@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-const User = require('../models/User'); // Importar o modelo de usuário
+const User = require('../models/User'); // Modelo de usuário
 
 // Rota de Cadastro (Signup)
 router.post('/signup', async (req, res) => {
@@ -37,7 +37,7 @@ router.post('/signup', async (req, res) => {
         res.status(201).json({ token });
     } catch (error) {
         console.error('Erro no cadastro:', error);
-        res.status(500).json({ message: 'Erro no servidor' });
+        res.status(500).json({ message: 'Erro no servidor, por favor tente novamente.' });
     }
 });
 
@@ -48,19 +48,19 @@ router.post('/login', async (req, res) => {
 
         // Verificar se todos os campos foram preenchidos
         if (!email || !password) {
-            return res.status(400).json({ message: 'Por favor, preencha todos os campos!' });
+            return res.status(400).json({ message: 'Por favor, preencha todos os campos.' });
         }
 
         // Verificar se o usuário existe
-        const user = await User.findOne({ email });
+        let user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: 'Credenciais inválidas!' });
+            return res.status(400).json({ message: 'Credenciais inválidas.' });
         }
 
-        // Comparar a senha
+        // Comparar a senha fornecida com a senha armazenada
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Credenciais inválidas!' });
+            return res.status(400).json({ message: 'Credenciais inválidas.' });
         }
 
         // Criar token JWT
@@ -70,7 +70,7 @@ router.post('/login', async (req, res) => {
         res.status(200).json({ token });
     } catch (error) {
         console.error('Erro no login:', error);
-        res.status(500).json({ message: 'Erro no servidor' });
+        res.status(500).json({ message: 'Erro no servidor, por favor tente novamente.' });
     }
 });
 
