@@ -1,78 +1,40 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const User = require('../models/User'); // Certifique-se de ter o modelo User
 const router = express.Router();
-const User = require('../models/User'); // Modelo de usuário
 
-// Rota de Cadastro (Signup)
+// Rota de cadastro (signup)
 router.post('/signup', async (req, res) => {
+    const { username, email, password } = req.body;
+
     try {
-        const { name, email, password, username } = req.body;
-
-        // Verificar se todos os campos obrigatórios foram preenchidos
-        if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Por favor, preencha todos os campos obrigatórios.' });
-        }
-
-        // Verificar se o email já está em uso
-        let user = await User.findOne({ email });
+        // Verificar se o usuário já existe
+        let user = await User.findOne({ username });
         if (user) {
-            return res.status(400).json({ message: 'Usuário já existe.' });
+            return res.status(400).json({ message: 'Usuário já existe' });
         }
 
         // Criar novo usuário
-        user = new User({ name, email, password, username });
+        user = new User({ username, email, password });
 
-        // Hashear a senha antes de salvar
+        // Hashear a senha
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
 
-        // Salvar o usuário no banco de dados
         await user.save();
 
-        // Criar token JWT
+        // Criar e retornar o token JWT
         const payload = { user: { id: user.id } };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.status(201).json({ token });
     } catch (error) {
-        console.error('Erro no cadastro:', error);
-        res.status(500).json({ message: 'Erro no servidor, por favor tente novamente.' });
-    }
-});
-
-// Rota de Login (Login)
-router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        // Verificar se todos os campos obrigatórios foram preenchidos
-        if (!email || !password) {
-            return res.status(400).json({ message: 'Por favor, preencha todos os campos obrigatórios.' });
-        }
-
-        // Verificar o usuário pelo email
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ message: 'Credenciais inválidas.' });
-        }
-
-        // Comparar a senha fornecida com a senha armazenada
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Credenciais inválidas.' });
-        }
-
-        // Criar token JWT
-        const payload = { user: { id: user.id } };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.status(200).json({ token });
-    } catch (error) {
-        console.error('Erro no login:', error);
-        res.status(500).json({ message: 'Erro no servidor, por favor tente novamente.' });
+        console.error('Erro no cadastro:', error.message);
+        res.status(500).json({ message: 'Erro no servidor' });
     }
 });
 
 module.exports = router;
+
 

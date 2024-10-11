@@ -1,87 +1,67 @@
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Estilo do corpo da página */
+/* Estilos básicos para o formulário de cadastro */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #e3f2fd;
-    color: #333;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
 }
 
-/* Container do formulário */
 .container {
-    background-color: #0f3460; /* Azul escuro */
-    border-radius: 8px;
-    padding: 40px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
     width: 100%;
-    max-width: 450px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Título do formulário */
-.container h2 {
+h2 {
     text-align: center;
-    color: #fff;
-    margin-bottom: 30px;
-}
-
-/* Estilo dos campos de input */
-.container input {
-    width: 100%;
-    padding: 15px;
     margin-bottom: 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #f1f1f1;
-    font-size: 16px;
-    color: #333;
 }
 
-/* Estilo do botão */
-.container button {
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
     width: 100%;
-    padding: 15px;
-    background-color: #1a1a2e;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
     border: none;
     border-radius: 5px;
-    color: #fff;
-    font-size: 18px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.container button:hover {
-    background-color: #162447; /* Mudança de cor ao passar o mouse */
+button:hover {
+    background-color: #218838;
 }
 
-/* Estilo dos links */
-.container .form-footer {
+.form-footer {
     text-align: center;
     margin-top: 15px;
 }
 
-.container .form-footer a {
-    color: #00bcd4; /* Azul claro */
+.form-footer a {
+    color: #007bff;
     text-decoration: none;
-    transition: color 0.3s ease;
 }
 
-.container .form-footer a:hover {
-    color: #1a1a2e; /* Azul mais escuro ao passar o mouse */
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .container {
-        padding: 20px;
-        width: 90%;
-    }
+.form-footer a:hover {
+    text-decoration: underline;
 }

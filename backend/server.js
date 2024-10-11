@@ -3,8 +3,8 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
-const connectDB = require('./config/db'); // Conexão com banco MongoDB
+const connectDB = require('./config/db');
+const cors = require('cors'); // Habilitar CORS
 const jwt = require('jsonwebtoken');
 
 const app = express();
@@ -15,8 +15,8 @@ connectDB();
 // Middleware para aceitar JSON no corpo das requisições
 app.use(express.json());
 
-// Habilitar CORS para permitir requisições do frontend
-app.use(cors());
+// Habilitar CORS para aceitar requisições de diferentes origens
+app.use(cors({ origin: 'https://investimentsecurity.github.io' }));
 
 // Middleware de autenticação
 const authMiddleware = (req, res, next) => {
@@ -37,7 +37,7 @@ const authMiddleware = (req, res, next) => {
 // Servir arquivos estáticos da pasta frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Rotas de autenticação
+// Rotas de autenticação (login e signup)
 app.use('/api/auth', require('./routes/auth'));
 
 // Rota protegida (Exemplo de Dashboard protegida por autenticação)
@@ -52,4 +52,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+
 

@@ -1,20 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const signupForm = document.querySelector('form');
+    const signupForm = document.getElementById('signupForm');
 
     signupForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Impede o comportamento padrão de envio do formulário
 
-        const name = signupForm.name.value;
+        const username = signupForm.username.value; // Captura o valor do username
         const email = signupForm.email.value;
         const password = signupForm.password.value;
-        const username = signupForm.username ? signupForm.username.value : ''; // Opcional
 
-        if (!name || !email || !password) {
+        if (!username || !email || !password) {
             alert('Por favor, preencha todos os campos!');
             return;
         }
 
-        const signupData = { name, email, password, username };
+        const signupData = { username, email, password };
 
         try {
             const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/signup', {
@@ -22,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(signupData)
+                body: JSON.stringify(signupData) // Envia os dados em formato JSON
             });
 
             if (!response.ok) {
@@ -39,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
 
 
 
