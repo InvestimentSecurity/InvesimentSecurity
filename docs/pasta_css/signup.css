@@ -9,16 +9,17 @@ body {
 }
 
 .container {
-    background-color: white;
+    background-color: #fff; /* Fundo branco */
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
     max-width: 400px;
     width: 100%;
 }
 
 h2 {
     text-align: center;
+    color: #0f3460; /* Cor principal para o título */
     margin-bottom: 20px;
 }
 
@@ -29,6 +30,7 @@ h2 {
 .form-group label {
     display: block;
     margin-bottom: 5px;
+    color: #333; /* Cor do texto das labels */
 }
 
 .form-group input {
@@ -36,20 +38,21 @@ h2 {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    color: #333; /* Cor do texto dos inputs */
 }
 
 button {
     width: 100%;
     padding: 10px;
-    background-color: #28a745;
-    color: white;
+    background-color: #0f3460; /* Cor do botão */
+    color: #fff; /* Cor do texto do botão */
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #0d2d57; /* Cor mais escura ao passar o mouse */
 }
 
 .form-footer {
@@ -58,10 +61,11 @@ button:hover {
 }
 
 .form-footer a {
-    color: #007bff;
+    color: #0f3460; /* Cor dos links */
     text-decoration: none;
 }
 
 .form-footer a:hover {
     text-decoration: underline;
 }
+
