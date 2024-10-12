@@ -1,40 +1,25 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    <link rel="stylesheet" href="pasta_css/signup.css"> <!-- Link para o CSS -->
+    <title>Signup</title>
+    <link rel="stylesheet" href="pasta_css/signup.css"> <!-- Caminho para o CSS -->
 </head>
 <body>
-
     <div class="container">
         <h2>Cadastro</h2>
         <form id="signupForm">
-            <div class="form-group">
-                <label for="username">Username:</label> <!-- Campo de username -->
-                <input type="text" id="username" name="username" placeholder="Seu username" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Seu email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" placeholder="Sua senha" required>
-            </div>
-
+            <input type="text" name="name" placeholder="Seu nome" required> <!-- Campo de Nome -->
+            <input type="email" name="email" placeholder="Seu email" required> <!-- Campo de Email -->
+            <input type="password" name="password" placeholder="Sua senha" required> <!-- Campo de Senha -->
             <button type="submit">Cadastrar</button>
-
-            <div class="form-footer">
-                <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
-            </div>
         </form>
+        <div id="errorMessage"></div> <!-- Exibe mensagem de erro -->
     </div>
 
-    <script src="pasta_js/signup.js"></script> <!-- Link para o JavaScript do cadastro -->
+    <script src="pasta_js/signup.js"></script> <!-- Caminho para o JS -->
 </body>
 </html>
+
 
