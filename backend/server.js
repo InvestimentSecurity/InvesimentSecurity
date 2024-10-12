@@ -4,21 +4,23 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const connectDB = require('./config/db');
-const cors = require('cors'); // Habilitar CORS
 const jwt = require('jsonwebtoken');
+const cors = require('cors'); // Adicionar CORS
 
 const app = express();
 
 // Conectar ao MongoDB
 connectDB();
 
-// Middleware para aceitar JSON no corpo das requisições
+// Middleware para aceitar JSON
 app.use(express.json());
 
-// Habilitar CORS para aceitar requisições de diferentes origens
-app.use(cors({ origin: 'https://investimentsecurity.github.io' }));
+// Habilitar CORS para permitir requisições de outros domínios (como o frontend hospedado no GitHub Pages)
+app.use(cors({
+    origin: 'https://investimentsecurity.github.io',
+}));
 
-// Middleware de autenticação
+// Middleware de autenticação JWT
 const authMiddleware = (req, res, next) => {
     const token = req.header('Authorization');
     if (!token) {
@@ -40,7 +42,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 // Rotas de autenticação (login e signup)
 app.use('/api/auth', require('./routes/auth'));
 
-// Rota protegida (Exemplo de Dashboard protegida por autenticação)
+// Rota protegida (exemplo de rota protegida)
 app.get('/api/dashboard', authMiddleware, (req, res) => {
     res.json({ message: `Bem-vindo à Dashboard, usuário ID: ${req.user.id}` });
 });

@@ -5,15 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
 
       const name = signupForm.name.value.trim();
+      const username = signupForm.username.value.trim();  // Captura o campo de username
       const email = signupForm.email.value.trim();
       const password = signupForm.password.value.trim();
 
-      if (!name || !email || !password) {
-          document.getElementById('errorMessage').textContent = 'Por favor, preencha todos os campos!';
+      if (!name || !username || !email || !password) {
+          alert('Por favor, preencha todos os campos!');
           return;
       }
 
-      const signupData = { name, email, password };
+      const signupData = { name, username, email, password };
 
       try {
           const response = await fetch('https://invesimentsecurity.onrender.com/api/auth/signup', {
@@ -30,13 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           alert('Cadastro realizado com sucesso!');
-          window.location.href = '/login.html'; // Redireciona para a página de login
+          window.location.href = '/login.html';  // Redireciona para a página de login
       } catch (error) {
           console.error('Erro ao enviar dados:', error);
-          document.getElementById('errorMessage').textContent = `Erro ao realizar cadastro: ${error.message}`;
+          alert(`Erro ao realizar cadastro: ${error.message}`);
       }
   });
 });
+
 
   
 
